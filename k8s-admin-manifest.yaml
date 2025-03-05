@@ -1,0 +1,35 @@
+---
+# Secret for Cluster Admin ServiceAccount token
+apiVersion: v1
+kind: Secret
+metadata:
+  name: admin-secret
+  namespace: default
+  annotations:
+    kubernetes.io/service-account.name: admin-service-account
+type: kubernetes.io/service-account-token
+
+---
+# ServiceAccount for Cluster Admin
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: admin-service-account
+  namespace: default
+secrets:
+  - name: admin-secret
+
+---
+# ClusterRoleBinding to grant cluster-admin role
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: admin-cluster-binding
+subjects:
+  - kind: ServiceAccount
+    name: admin-service-account
+    namespace: default
+roleRef:
+  kind: ClusterRole
+  name: cluster-admin
+  apiGroup: rbac.authorization.k8s.io

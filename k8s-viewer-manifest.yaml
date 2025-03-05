@@ -1,0 +1,35 @@
+---
+# Secret for Viewer ServiceAccount token
+apiVersion: v1
+kind: Secret
+metadata:
+  name: viewer-secret
+  namespace: default
+  annotations:
+    kubernetes.io/service-account.name: viewer-service-account
+type: kubernetes.io/service-account-token
+
+---
+# ServiceAccount for Viewer
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: viewer-service-account
+  namespace: default
+secrets:
+  - name: viewer-secret
+
+---
+# ClusterRoleBinding to grant view role
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: viewer-cluster-binding
+subjects:
+  - kind: ServiceAccount
+    name: viewer-service-account
+    namespace: default
+roleRef:
+  kind: ClusterRole
+  name: view
+  apiGroup: rbac.authorization.k8s.io
