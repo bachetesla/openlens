@@ -167,13 +167,6 @@ Got ideas or fixes? Open an issue or send a pull request—I’d love to hear fr
 
 ---
 
-## License
-
-This is under the [MIT License](LICENSE)—feel free to use and adapt it.
-```
-
----
-
 ### Full Code
 
 #### `k8s-admin-manifest.yaml`
